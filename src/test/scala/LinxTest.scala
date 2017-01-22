@@ -1,5 +1,5 @@
-package linx
 
+import linx._
 import org.scalatest._
 
 class LinxTest extends FunSuite {
@@ -30,7 +30,7 @@ class LinxTest extends FunSuite {
     assertEquals("a", a)
     assertEquals("b", b)
     assertEquals("c", c)
-    assertEquals(path, X(a, b, c))
+    assertEquals(path, X((a, b, c)))
   }
 
   test("literal") {
@@ -48,7 +48,7 @@ class LinxTest extends FunSuite {
     assertEquals("E", e)
     assertEquals("F", f)
     assertEquals("H", h)
-    assertEquals(path, X(b, e, f, h))
+    assertEquals(path, X((b, e, f, h)))
   }
 
   test("failRoot") {
@@ -98,7 +98,7 @@ class LinxTest extends FunSuite {
 
   test("variableOnUnion") {
     val ABX = (Root / 'x / "A" | Root / "A" / 'x) / 'y
-    assertEquals(ABX("X", "Y"), "/X/A/Y")
+    assertEquals(ABX(("X", "Y")), "/X/A/Y")
     val ABX("X", "Y") = "/X/A/Y"
     val ABX("X", "Y") = "/A/X/Y"
   }
@@ -107,7 +107,7 @@ class LinxTest extends FunSuite {
     val ABX = (Root / 'x / "A" | Root / "A" / 'x) / 'y
     val BYZ = (Root / "Y" / "Y" / "Y" / 'x | Root / "Y" / 'x) / "Z" / 'y / "Z"
     val XXX = (ABX | BYZ) / "U" / 'z
-    assertEquals(XXX("x", "y", "z"), "/x/A/y/U/z")
+    assertEquals(XXX(("x", "y", "z")), "/x/A/y/U/z")
     val XXX("x", "y", "z") = "/x/A/y/U/z"
     val XXX("x", "y", "z") = "/A/x/y/U/z"
   }
@@ -115,14 +115,6 @@ class LinxTest extends FunSuite {
   test("unionBacktracking") {
     val X = (Root | Root / "a") / 'b
     val X("b") = "/a/b"
-  }
-
-  test("parts") {
-    val X = (Root / "a" / 'a | Root / 'a / "a") / "x" / 'x
-    assertEquals(
-      X.parts,
-      Stream(Vector(Literal("a"), Var("a"), Literal("x"), Var("x")),
-             Vector(Var("a"), Literal("a"), Literal("x"), Var("x"))))
   }
 
   test("checkToString") {

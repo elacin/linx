@@ -12,7 +12,16 @@ crossScalaVersions := Seq("2.12.1", "2.11.8", "2.10.6")
 
 scalaVersion := crossScalaVersions.value.head
 
-scalacOptions ++= Seq("-feature", "-deprecation", "-encoding", "utf-8")
+scalacOptions ++= Seq(
+  "-deprecation",
+  "-encoding",
+  "UTF-8",
+  "-feature",
+  "-unchecked",
+  "-Xlint",
+  "-Yno-adapted-args",
+  "-Ywarn-value-discard"
+)
 
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.1"
 
