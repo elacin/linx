@@ -3,8 +3,11 @@ package linx
 import org.scalatest._
 
 class LinxTest extends FunSuite {
-  def assertEquals[X](x: X, y: X) = assert(x === y)
-  def assertFalse(boolean: Boolean) = assert(!boolean)
+  def assertEquals[X](x: X, y: X): Assertion =
+    assert(x === y)
+
+  def assertFalse(boolean: Boolean): Assertion =
+    assert(!boolean)
 
   test("empty") {
     val path = "/"
@@ -23,11 +26,11 @@ class LinxTest extends FunSuite {
   test("variableMulti") {
     val X = Root / 'a / 'b / 'c
     val path = "/a/b/c"
-    val X(a,b,c) = path
+    val X(a, b, c) = path
     assertEquals("a", a)
     assertEquals("b", b)
     assertEquals("c", c)
-    assertEquals(path, X(a,b,c))
+    assertEquals(path, X(a, b, c))
   }
 
   test("literal") {
@@ -116,9 +119,10 @@ class LinxTest extends FunSuite {
 
   test("parts") {
     val X = (Root / "a" / 'a | Root / 'a / "a") / "x" / 'x
-    assertEquals(X.parts, Stream(
-      Vector(Literal("a"), Var("a"), Literal("x"), Var("x")),
-      Vector(Var("a"), Literal("a"), Literal("x"), Var("x"))))
+    assertEquals(
+      X.parts,
+      Stream(Vector(Literal("a"), Var("a"), Literal("x"), Var("x")),
+             Vector(Var("a"), Literal("a"), Literal("x"), Var("x"))))
   }
 
   test("checkToString") {
@@ -128,27 +132,26 @@ class LinxTest extends FunSuite {
 
   test("templates") {
     val X = (Root / "a" / 'a | Root / 'a / "a") / "x" / 'x
-    def rails(s:String) = ":"+s
-    assertEquals(X.templates(rails), Stream(
-      "/a/:a/x/:x", "/:a/a/x/:x"))
+    def rails(s: String) = ":" + s
+    assertEquals(X.templates(rails), Stream("/a/:a/x/:x", "/:a/a/x/:x"))
   }
 
   test("template") {
     val X = (Root / "a" / 'a | Root / 'a / "a") / "x" / 'x
-    def rails(s:String) = ":"+s
+    def rails(s: String) = ":" + s
     assertEquals(X.template(rails), "/a/:a/x/:x")
   }
 
   test("lenientLiteral") {
-    val X    = Root / "/A" / "B/C"
+    val X = Root / "/A" / "B/C"
     val path = "/A/B/C"
-    val X()  = path
+    val X() = path
 
     assertEquals(path, X())
   }
 
   test("lenientVariable") {
-    val X    = Root / 'x / "//bar/baz///"
+    val X = Root / 'x / "//bar/baz///"
     val path = "/foo/bar/baz"
     val X(x) = path
 
@@ -157,7 +160,7 @@ class LinxTest extends FunSuite {
   }
 
   test("lenientUnapply") {
-    val X    = Root / 'x / "//bar/baz///"
+    val X = Root / 'x / "//bar/baz///"
     val path = "/foo/bar/baz"
     val X(x) = path.replaceAll("/", "//")
 
