@@ -1,6 +1,6 @@
 package linx
 
-sealed trait BaseLinx[A] {
+private [linx] sealed trait BaseLinx[A] {
   private[linx] val parts: Stream[Vector[Part]]
 
   def elements(a: A): Stream[Vector[String]]

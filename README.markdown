@@ -4,9 +4,9 @@ Linx is a tiny and simple library for building and matching links/paths in a typ
 Links are built from the root up, consisting of literal and variable parts.
 A link can be used both as a function and as an extractor for pattern matching.
 
-Linx has no dependencies and is cross compiled for 2.10, 2.11 and 2.12
+Linx has no dependencies and is cross compiled for 2.10, 2.11 and 2.12. All versions are also available for scala.js
 
-Latest version is 0.3 and is available from Maven Central as `"com.jteigen" %% "linx" % "0.3"`
+Latest version is 0.4 and is available from Maven Central as `"no.arktekk" %% "linx" % "0.4"`
 
 	import linx._
 
@@ -152,7 +152,7 @@ When using link alternatives as functions, they will always return the leftmost 
 
 If you need to retrieve all the available links you can call the `links` method
 
-	Pet.links("personA", "petB") == Stream("/people/personA/pets/petA", "/persons/personA/pets/petA")
+	Pet.links("personA", "petB") == Stream("/people/personA/pets/petB", "/persons/personA/pets/petB")
 
 ## Templates
 Pretty much every api out there have documented link structures for developers to code against (e.g twitter)
