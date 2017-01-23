@@ -26,7 +26,7 @@ class LinxTest extends FunSuite {
   test("variableMulti") {
     val X = Root / 'a / 'b / 'c
     val path = "/a/b/c"
-    val X(a, b, c) = path
+    val X((a, b, c)) = path
     assertEquals("a", a)
     assertEquals("b", b)
     assertEquals("c", c)
@@ -43,7 +43,7 @@ class LinxTest extends FunSuite {
   test("mixed") {
     val X = Root / "A" / 'b / "C" / "D" / 'e / 'f / "G" / 'h / "I"
     val path = "/A/B/C/D/E/F/G/H/I"
-    val X(b, e, f, h) = path
+    val X((b, e, f, h)) = path
     assertEquals("B", b)
     assertEquals("E", e)
     assertEquals("F", f)
@@ -99,8 +99,8 @@ class LinxTest extends FunSuite {
   test("variableOnUnion") {
     val ABX = (Root / 'x / "A" | Root / "A" / 'x) / 'y
     assertEquals(ABX(("X", "Y")), "/X/A/Y")
-    val ABX("X", "Y") = "/X/A/Y"
-    val ABX("X", "Y") = "/A/X/Y"
+    val ABX(("X", "Y")) = "/X/A/Y"
+    val ABX(("X", "Y")) = "/A/X/Y"
   }
 
   test("unionsInUnions") {
@@ -108,8 +108,8 @@ class LinxTest extends FunSuite {
     val BYZ = (Root / "Y" / "Y" / "Y" / 'x | Root / "Y" / 'x) / "Z" / 'y / "Z"
     val XXX = (ABX | BYZ) / "U" / 'z
     assertEquals(XXX(("x", "y", "z")), "/x/A/y/U/z")
-    val XXX("x", "y", "z") = "/x/A/y/U/z"
-    val XXX("x", "y", "z") = "/A/x/y/U/z"
+    val XXX(("x", "y", "z")) = "/x/A/y/U/z"
+    val XXX(("x", "y", "z")) = "/A/x/y/U/z"
   }
 
   test("unionBacktracking") {
